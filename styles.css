@@ -1,34 +1,42 @@
 /* ============================================================ */
-/* CHRONOCROWD — MASTER STYLESHEET v2.0                         */
-/* 60% White · 30% Charcoal · 10% Gold                          */
+/* CHRONOCROWD — MASTER STYLESHEET v3.0                         */
+/* 60-30-10: Deep Charcoal / Cyan / Gold (Material Design 3)    */
 /* ============================================================ */
 
 :root {
-  --bg-deep:            #F5F5F5;
-  --bg-surface:         #FFFFFF;
-  --bg-surface-hover:   #F9F9F9;
+  /* ── 60% Dominant: Deep Charcoal backgrounds ── */
+  --bg-deep:            #0f0f11;
+  --bg-surface:         #16161a;
+  --bg-surface-hover:   #1e1e24;
 
-  --accent-primary:       #191919;
-  --accent-primary-glow:  rgba(25,25,25,0.05);
+  /* ── 30% Secondary: Charcoal panels & sidebar ── */
+  --accent-primary:       #0a0a0c;
+  --accent-primary-glow:  rgba(0,242,255,0.05);
 
-  --accent-secondary:      #B88746;
-  --accent-secondary-glow: rgba(184,135,70,0.12);
-  --accent-secondary-dark: #9A6F35;
+  /* ── 10% Accent: Cyan primary + Gold for CTAs ── */
+  --accent-cyan:           #00f2ff;
+  --accent-cyan-glow:      rgba(0,242,255,0.15);
+  --accent-cyan-dark:      #00c8d4;
 
-  --density-high: #B85C5C;
-  --density-med:  #C8922A;
-  --density-low:  #5A9E7C;
+  /* Gold specifically for buttons (CTA) per 60-30-10 */
+  --accent-secondary:      #cba35c;
+  --accent-secondary-glow: rgba(203,163,92,0.12);
+  --accent-secondary-dark: #a8833e;
 
-  --text-primary:   #191919;
-  --text-secondary: #5A5A5A;
-  --text-muted:     #9A9A9A;
+  --density-high: #ff4d6d;
+  --density-med:  #f4a261;
+  --density-low:  #52b788;
+
+  --text-primary:   #e8e8f0;
+  --text-secondary: #9898b2;
+  --text-muted:     #5c5c78;
   --text-on-dark:   #FFFFFF;
 
-  --border-light:  rgba(0,0,0,0.07);
-  --border-glass:  rgba(0,0,0,0.07);
-  --shadow-sm:     0 2px 8px rgba(0,0,0,0.06);
-  --shadow-md:     0 6px 24px rgba(0,0,0,0.08);
-  --shadow-glass:  0 4px 20px rgba(0,0,0,0.06);
+  --border-light:  rgba(255,255,255,0.06);
+  --border-glass:  rgba(255,255,255,0.06);
+  --shadow-sm:     0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md:     0 6px 24px rgba(0,0,0,0.4);
+  --shadow-glass:  0 4px 20px rgba(0,0,0,0.25);
 
   --radius-lg: 20px;
   --radius-md: 12px;
@@ -38,7 +46,8 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body {
-  font-family: 'Outfit', sans-serif;
+  /* Inter for body/UI text as specified */
+  font-family: 'Inter', sans-serif;
   background: var(--bg-deep);
   color: var(--text-primary);
   min-height: 100vh;
@@ -70,12 +79,15 @@ body {
   display: flex;
   flex-direction: column;
   padding: 2rem 1.25rem;
-  box-shadow: 2px 0 15px rgba(0,0,0,0.06);
+  box-shadow: 2px 0 15px rgba(0,0,0,0.4);
   z-index: 50;
   overflow-y: auto;
+  border-right: 1px solid rgba(0,242,255,0.08);
 }
 
+/* Syne applied to brand/logo as a heading element */
 .sidebar-brand {
+  font-family: 'Syne', sans-serif;
   font-size: 1.4rem;
   font-weight: 800;
   display: flex;
@@ -91,11 +103,11 @@ body {
   height: 28px;
   flex-shrink: 0;
   display: block;
-  filter: drop-shadow(0 0 4px rgba(184,135,70,0.35));
+  filter: drop-shadow(0 0 4px rgba(203,163,92,0.5));
   transition: filter 0.3s ease;
 }
 .sidebar-brand:hover .brand-eye-svg {
-  filter: drop-shadow(0 0 9px rgba(184,135,70,0.65));
+  filter: drop-shadow(0 0 9px rgba(0,242,255,0.7));
 }
 
 
@@ -107,7 +119,8 @@ body {
 }
 
 .nav-item {
-  color: rgba(255,255,255,0.6);
+  color: rgba(255,255,255,0.5);
+  font-family: 'Inter', sans-serif;
   font-weight: 500;
   font-size: 0.9rem;
   cursor: pointer;
@@ -120,13 +133,13 @@ body {
   border-left: 3px solid transparent;
 }
 .nav-item i { font-size: 1.1rem; }
-.nav-item:hover { background: rgba(255,255,255,0.06); color: #fff; }
+.nav-item:hover { background: rgba(0,242,255,0.06); color: #fff; }
 .nav-item.active {
-  background: rgba(184,135,70,0.15);
+  background: rgba(203,163,92,0.15);
   color: #fff;
   border-left-color: var(--accent-secondary);
 }
-.nav-item-admin.active { background: rgba(184,135,70,0.2); }
+.nav-item-admin.active { background: rgba(203,163,92,0.2); }
 
 /* Sidebar live status */
 .sidebar-live-status {
@@ -202,7 +215,7 @@ body {
   flex: 1;
   padding: 2.5rem;
   overflow-y: auto;
-  background: #fff;
+  background: var(--bg-deep);
 }
 
 .page-view { display: none; animation: fadeIn 0.25s ease; }
@@ -224,13 +237,16 @@ body {
   justify-content: space-between;
   gap: 1rem;
 }
+/* Syne for page H1 headings (display typography) */
 .page-header h1 {
+  font-family: 'Syne', sans-serif;
   font-size: 1.75rem;
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 4px;
+  letter-spacing: -0.02em;
 }
-.page-header h1 span { color: var(--accent-secondary); }
+.page-header h1 span { color: var(--accent-cyan); }
 .page-header .subtitle { color: var(--text-secondary); font-size: 0.95rem; }
 
 /* Header controls (city + badge) */
@@ -412,12 +428,37 @@ body {
   box-shadow: var(--shadow-glass);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
-.glass-panel:hover { transform: translateY(-3px); box-shadow: 0 12px 40px -8px rgba(0,0,0,0.1); }
+.glass-panel:hover { transform: translateY(-3px); box-shadow: 0 12px 40px -8px rgba(0,0,0,0.35), 0 0 0 1px rgba(0,242,255,0.05); }
+
+/* ============================================================ */
+/* TECHNICAL OVERVIEW GRID (responsive CSS Grid, 1.5rem gap)    */
+/* ============================================================ */
+
+.technical-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+.tech-overview-item {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.tech-overview-item:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,242,255,0.08); }
+.tech-overview-item h4 { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--accent-cyan); }
+.tech-overview-item p  { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; }
 
 /* ============================================================ */
 /* DASHBOARD GRID                                                */
 /* ============================================================ */
 
+/* Syne for dashboard card headings (h2) */
 .dashboard-grid { display: grid; grid-template-columns: repeat(12,1fr); gap: 1.5rem; }
 
 .card { display: flex; flex-direction: column; animation: fadeSlideUp 0.6s ease backwards; }
@@ -431,8 +472,8 @@ body {
 .rec-card      { grid-column: span 12; animation-delay: 0.4s; }
 
 .card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; }
-.card-header h2 { font-size:1.1rem; font-weight:600; display:flex; align-items:center; gap:8px; }
-.card-header h2 i { color: var(--accent-secondary); }
+.card-header h2 { font-family: 'Syne', sans-serif; font-size:1.1rem; font-weight:700; display:flex; align-items:center; gap:8px; }
+.card-header h2 i { color: var(--accent-cyan); }
 
 .text-link { background:none; border:none; color:var(--text-secondary); font-family:inherit; font-size:0.85rem; cursor:pointer; }
 .text-link:hover { color:var(--text-primary); text-decoration:underline; }
@@ -451,17 +492,17 @@ body {
   align-items: flex-start;
   gap: 14px;
   padding: 14px;
-  background: #FAFAFA;
+  background: var(--bg-surface-hover);
   border-radius: var(--radius-md);
-  border: 1px solid rgba(0,0,0,0.04);
+  border: 1px solid var(--border-glass);
   cursor: pointer;
   transition: background 0.15s, transform 0.15s;
 }
-.schedule-item:hover { background: #F5F5F5; transform: translateX(3px); }
+.schedule-item:hover { background: color-mix(in srgb, var(--accent-cyan) 5%, var(--bg-surface-hover)); transform: translateX(3px); }
 
 .time { font-size: 0.78rem; font-weight: 700; color: var(--accent-secondary); white-space: nowrap; padding-top: 2px; min-width: 52px; }
 
-.details h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; }
+.details h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; color: var(--text-primary); }
 .details p { font-size: 0.8rem; color: var(--text-secondary); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 
 .crowd-score-pill {
@@ -555,9 +596,9 @@ body {
 
 .zone-card {
   padding: 12px;
-  background: #FAFAFA;
+  background: var(--bg-surface-hover);
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(0,0,0,0.04);
+  border: 1px solid var(--border-glass);
   transition: box-shadow 0.2s;
 }
 .zone-card.highlight-glow { box-shadow: 0 0 0 2px var(--accent-secondary); }
@@ -567,7 +608,7 @@ body {
 .value.dark-red { color:var(--density-high); }
 .value.orange   { color:var(--density-med); }
 .value.green    { color:var(--density-low); }
-.progress-bar { height:6px; background:rgba(0,0,0,0.06); border-radius:99px; overflow:hidden; }
+.progress-bar { height:6px; background:rgba(255,255,255,0.06); border-radius:99px; overflow:hidden; }
 .progress-bar .fill { height:100%; border-radius:99px; transition: width 0.8s ease; }
 
 /* Crowd AI banner */
@@ -728,17 +769,21 @@ select.form-input { cursor: pointer; }
 
 #form-login h2, #form-register h2 { font-size:1.2rem; margin-bottom:16px; font-weight:700; }
 
+/* ============================================================ */
+/* PRIMARY BUTTON — Gold (#cba35c) per 60-30-10 spec             */
+/* WCAG 2.1 AA: high-contrast focus-visible on auth buttons      */
+/* ============================================================ */
 .primary-btn {
   background: var(--accent-secondary);
   color: #fff;
   border: none;
   padding: 12px 24px;
   border-radius: var(--radius-sm);
-  font-family: inherit;
+  font-family: 'Inter', sans-serif;
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s, transform 0.1s;
+  transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -746,6 +791,15 @@ select.form-input { cursor: pointer; }
 }
 .primary-btn:hover { background: var(--accent-secondary-dark); }
 .primary-btn:active { transform: scale(0.98); }
+
+/* WCAG 2.1 AA: high-contrast focus-visible for Register + Login buttons */
+.auth-focus-btn:focus-visible,
+#submit-login:focus-visible,
+#submit-register:focus-visible {
+  outline: 3px solid var(--accent-cyan);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgba(0,242,255,0.25);
+}
 
 /* ============================================================ */
 /* GOOGLE PICKER                                                 */
