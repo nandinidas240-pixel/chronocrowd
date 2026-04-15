@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ChronoCrowd — Stadium AI Command Center for Cricket World Finals at M. Chinnaswamy Stadium. Live wait-time predictions, gate heat maps, Seat Sync, and Predictive Crowd AI." />
+  <title>ChronoCrowd — Cricket World Finals Command Center</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ================================================ -->
+  <!-- GOOGLE ACCOUNT PICKER MODAL                      -->
+  <!-- ================================================ -->
+  <div id="google-picker-modal" class="overlay hidden">
+    <div class="google-picker-card" id="google-picker-card">
+      <div class="gp-header">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 74 24" width="74" height="24" aria-label="Google">
+          <path fill="#4285F4" d="M9.24 7.2v2.46h5.88c-.18 1.38-.64 2.39-1.34 3.1-.86.86-2.2 1.8-4.54 1.8-3.62 0-6.45-2.92-6.45-6.54s2.83-6.54 6.45-6.54c1.95 0 3.38.77 4.43 1.76L15.4 1.7C13.94.3 11.98-.6 9.24-.6 4.28-.6.6 3.22.6 8.02s3.68 8.62 8.64 8.62c2.52 0 4.42-.83 5.92-2.38 1.53-1.53 2.01-3.68 2.01-5.42 0-.54-.04-1.04-.13-1.64H9.24z"/>
+          <path fill="#EA4335" d="M25 6.19c-3.21 0-5.83 2.44-5.83 5.82 0 3.34 2.62 5.82 5.83 5.82s5.83-2.48 5.83-5.82C30.83 8.63 28.21 6.19 25 6.19zm0 9.34c-1.76 0-3.28-1.45-3.28-3.52 0-2.09 1.52-3.52 3.28-3.52s3.28 1.43 3.28 3.52c0 2.07-1.52 3.52-3.28 3.52z"/>
+          <path fill="#FBBC05" d="M53.58 6.19c-3.21 0-5.83 2.44-5.83 5.82 0 3.34 2.62 5.82 5.83 5.82s5.83-2.48 5.83-5.82c0-3.38-2.62-5.82-5.83-5.82zm0 9.34c-1.76 0-3.28-1.45-3.28-3.52 0-2.09 1.52-3.52 3.28-3.52s3.28 1.43 3.28 3.52c0 2.07-1.52 3.52-3.28 3.52z"/>
+          <path fill="#4285F4" d="M36.01 6.19c-3.21 0-5.83 2.44-5.83 5.82 0 3.34 2.62 5.82 5.83 5.82 1.6 0 2.96-.53 3.97-1.44l.04.04v.9c0 2.22-1.19 3.41-3.1 3.41-1.56 0-2.53-1.12-2.93-2.07l-2.22.92c.64 1.54 2.33 3.43 5.15 3.43 2.99 0 5.52-1.76 5.52-6.05V6.6h-2.42v.93h-.08a4.23 4.23 0 0 0-3.93-1.34zm.24 9.34c-1.76 0-3.23-1.48-3.23-3.52 0-2.07 1.47-3.52 3.23-3.52 1.74 0 3.1 1.48 3.1 3.52 0 2.01-1.36 3.52-3.1 3.52z"/>
+          <path fill="#34A853" d="M62.18.6h2.55v16.98h-2.55z"/>
+          <path fill="#EA4335" d="M71.95 13.02L74 11.49c-.75-1.12-2.24-3.3-4.7-3.3-2.84 0-5.12 2.26-5.12 5.82 0 3.26 2.26 5.82 5.38 5.82 2.42 0 3.82-1.48 4.42-2.35l-1.82-1.21c-.6.88-1.42 1.47-2.6 1.47-1.18 0-2.01-.54-2.55-1.61l7.06-2.92-.12-.19zm-7.14.9c-.06-2.24 1.73-3.38 3.02-3.38.93 0 1.78.47 2.07 1.11l-5.09 2.27z"/>
+        </svg>
+        <button id="gp-close" class="gp-close-btn" aria-label="Close"><i class="ph ph-x"></i></button>
+      </div>
+
+      <div id="gp-accounts-view">
+        <h2 class="gp-title">Choose an account</h2>
+        <p class="gp-subtitle">to continue to ChronoCrowd</p>
+        <ul class="gp-accounts-list">
+          <li class="gp-account-row" data-email="admin@chronocrowd.in" data-name="Admin" data-role="admin">
+            <div class="gp-avatar" style="background:linear-gradient(135deg,#B88746,#9A6F35);">A</div>
+            <div class="gp-account-info">
+              <span class="gp-name">ChronoCrowd Admin <span class="gp-role-badge">Admin</span></span>
+              <span class="gp-email">admin@chronocrowd.in</span>
+            </div>
+            <i class="ph ph-caret-right gp-caret"></i>
+          </li>
+          <li class="gp-account-row" data-email="alex.chen@gmail.com" data-name="Alex Chen" data-role="user">
+            <div class="gp-avatar" style="background:linear-gradient(135deg,#4285F4,#34A853);">A</div>
+            <div class="gp-account-info">
+              <span class="gp-name">Alex Chen</span>
+              <span class="gp-email">alex.chen@gmail.com</span>
+            </div>
+            <i class="ph ph-caret-right gp-caret"></i>
+          </li>
+          <li class="gp-account-row" data-email="visitor@gmail.com" data-name="Festival Visitor" data-role="user">
+            <div class="gp-avatar" style="background:linear-gradient(135deg,#9E9E9E,#616161);">V</div>
+            <div class="gp-account-info">
+              <span class="gp-name">Festival Visitor</span>
+              <span class="gp-email">visitor@gmail.com</span>
+            </div>
+            <i class="ph ph-caret-right gp-caret"></i>
+          </li>
+        </ul>
+        <div class="gp-footer">
+          <button class="gp-use-another-btn" id="gp-use-another"><i class="ph ph-plus-circle"></i> Use another account</button>
+        </div>
+      </div>
+
+      <div id="gp-loading-view" class="hidden">
+        <div class="gp-loading-inner">
+          <div class="gp-spinner-wrap">
+            <svg class="gp-spinner" viewBox="25 25 50 50">
+              <circle class="gp-spinner-path" cx="50" cy="50" r="20" fill="none" stroke-width="4"/>
+            </svg>
+          </div>
+          <p class="gp-signing-in-text">Signing in<span class="gp-dots"><span>.</span><span>.</span><span>.</span></span></p>
+          <p id="gp-signing-email" class="gp-signing-email"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================ -->
+  <!-- AUTH MODAL                                       -->
+  <!-- ================================================ -->
+  <div id="auth-modal" class="overlay hidden">
+    <div class="auth-card">
+      <button id="close-auth" class="close-modal-btn" aria-label="Close auth"><i class="ph ph-x"></i></button>
+
+      <div class="auth-tab-row">
+        <button id="tab-login" class="auth-tab active">Login</button>
+        <button id="tab-register" class="auth-tab">Register</button>
+      </div>
+
+      <!-- Google SSO -->
+      <button class="google-btn" id="btn-google-login">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="20" height="20" aria-hidden="true" style="flex-shrink:0;">
+          <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+          <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+          <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+          <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+        </svg>
+        <span>Continue with Google</span>
+      </button>
+
+      <div class="auth-divider"><span>or continue with email</span></div>
+
+      <!-- Login Form -->
+      <div id="form-login">
+        <h2>Welcome Back</h2>
+        <input type="email" id="login-email" placeholder="Email Address" class="form-input" autocomplete="email" />
+        <input type="password" id="login-password" placeholder="Password" class="form-input" autocomplete="current-password" />
+        <button id="submit-login" class="primary-btn" style="width:100%;">Login Securely</button>
+      </div>
+
+      <!-- Register Form -->
+      <div id="form-register" style="display:none;">
+        <h2>Create Account</h2>
+        <input type="text" id="reg-name" placeholder="Full Name" class="form-input" autocomplete="name" />
+        <input type="email" id="reg-email" placeholder="Email Address" class="form-input" autocomplete="email" />
+        <input type="password" id="reg-password" placeholder="Password" class="form-input" autocomplete="new-password" />
+        <button id="submit-register" class="primary-btn" style="width:100%;">Create Account</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================ -->
+  <!-- EVENT ADD / EDIT MODAL                           -->
+  <!-- ================================================ -->
+  <div id="event-modal" class="overlay hidden">
+    <div class="auth-card" style="max-width:480px;width:90%;">
+      <button id="close-event-modal" class="close-modal-btn"><i class="ph ph-x"></i></button>
+      <h2 id="event-modal-title" style="margin-bottom:1.2rem;">Add Event</h2>
+      <input  type="text"   id="ev-title"       placeholder="Event Title"         class="form-input" />
+      <input  type="time"   id="ev-time"                                           class="form-input" />
+      <select               id="ev-category"                                       class="form-input"></select>
+      <input  type="text"   id="ev-location"    placeholder="Zone / Location"     class="form-input" />
+      <select               id="ev-crowd"                                          class="form-input">
+        <option value="Low">Low Crowd</option>
+        <option value="Medium" selected>Medium Crowd</option>
+        <option value="High">High Crowd</option>
+      </select>
+      <input  type="number" id="ev-popularity"  placeholder="Popularity (0–100)"  class="form-input" min="0" max="100" />
+      <textarea             id="ev-description" placeholder="Short description…"  class="form-input" rows="2" style="resize:vertical;"></textarea>
+      <button id="save-event-btn" class="primary-btn" style="width:100%;margin-top:10px;">
+        <i class="ph ph-floppy-disk"></i> Save Event
+      </button>
+    </div>
+  </div>
+
+  <!-- ================================================ -->
+  <!-- ZONE DETAIL MODAL                               -->
+  <!-- ================================================ -->
+  <div id="zone-modal" class="overlay hidden">
+    <div class="zone-detail-card">
+      <button id="close-zone-modal" class="close-modal-btn"><i class="ph ph-x"></i></button>
+      <div id="zone-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- ================================================ -->
+  <!-- SEAT SYNC MODAL                                  -->
+  <!-- ================================================ -->
+  <div id="seat-sync-modal" class="overlay hidden">
+    <div class="auth-card seat-sync-card" style="max-width:460px;width:90%;">
+      <button id="close-seat-sync" class="close-modal-btn" aria-label="Close Seat Sync"><i class="ph ph-x"></i></button>
+      <div class="seat-sync-header">
+        <div class="seat-sync-icon-wrap"><i class="ph-fill ph-map-pin-simple-area"></i></div>
+        <div>
+          <h2 style="font-size:1.3rem;margin:0 0 4px;">Seat Sync</h2>
+          <p style="color:var(--text-secondary);font-size:0.82rem;margin:0;">Live location sharing with your squad</p>
+        </div>
+      </div>
+      <div class="seat-sync-my-loc">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+          <span class="live-pulse-dot" style="background:#34A853;width:10px;height:10px;flex-shrink:0;"></span>
+          <span style="font-weight:700;font-size:0.88rem;">📡 Broadcasting Your Location</span>
+        </div>
+        <p id="seat-sync-my-status" style="color:var(--text-secondary);font-size:0.82rem;margin:0 0 0 20px;">Block A, Row 4, Seat 7 · M. Chinnaswamy Stadium</p>
+      </div>
+      <div id="seat-sync-friends-list" class="seat-sync-friends"></div>
+      <button class="primary-btn" id="seat-sync-share-btn" style="width:100%;margin-top:1.2rem;gap:8px;">
+        <i class="ph ph-share-network"></i> Share My Seat Link
+      </button>
+    </div>
+  </div>
+
+  <!-- Fixed Toast Alerts Container -->
+  <div id="alerts-container" class="alerts-container" aria-live="polite"></div>
+
+  <!-- ================================================ -->
+  <!-- APP SHELL                                        -->
+  <!-- ================================================ -->
+  <div class="app-shell">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <svg class="brand-eye-svg" viewBox="0 0 60 52" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="ChronoCrowd Eye of Providence" role="img">
+          <!-- Pyramid outline -->
+          <path d="M30 2 L58 50 H2 Z" fill="none" stroke="#B88746" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+          <!-- Eye outer shape (almond / vesica) -->
+          <path d="M17 30 Q30 19 43 30 Q30 41 17 30 Z" fill="none" stroke="#B88746" stroke-width="2.4" stroke-linejoin="round"/>
+          <!-- Iris circle -->
+          <circle cx="30" cy="30" r="5.5" fill="#B88746"/>
+          <!-- Radiating lines above pyramid apex (optional subtle detail) -->
+          <line x1="30" y1="2" x2="30" y2="-3" stroke="#B88746" stroke-width="2" stroke-linecap="round" opacity="0"/>
+        </svg>
+        <span>ChronoCrowd</span>
+      </div>
+
+      <nav>
+        <ul class="nav-links" id="main-nav-links">
+          <li class="nav-item active" data-target="view-dashboard">
+            <i class="ph ph-squares-four"></i> Dashboard
+          </li>
+          <li class="nav-item" data-target="view-schedule">
+            <i class="ph ph-calendar-star"></i> Schedule
+          </li>
+          <li class="nav-item" data-target="view-crowd">
+            <i class="ph ph-users-three"></i> Crowd Status
+          </li>
+          <li class="nav-item" data-target="view-map">
+            <i class="ph ph-map-trifold"></i> Event Map
+          </li>
+          <li class="nav-item" data-target="view-profile">
+            <i class="ph ph-user-circle"></i> Profile
+          </li>
+          <li class="nav-item nav-item-admin" data-target="view-admin" id="admin-nav-item" style="display:none;">
+            <i class="ph ph-shield-check"></i> Admin Panel
+          </li>
+        </ul>
+      </nav>
+
+      <div style="flex:1;"></div>
+
+      <!-- Live Status Indicator -->
+      <div class="sidebar-live-status" id="sidebar-api-status">
+        <span class="live-pulse-dot"></span>
+        <span id="api-status-text">AI Active</span>
+      </div>
+
+      <!-- Auth / User display -->
+      <div class="nav-auth-sidebar" id="nav-auth-container"></div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- ============================================ -->
+      <!-- VIEW: DASHBOARD                              -->
+      <!-- ============================================ -->
+      <section id="view-dashboard" class="page-view active">
+
+        <header class="page-header">
+          <div>
+            <h1><span>ChronoCrowd</span> — Cricket World Finals Command Center</h1>
+            <p class="subtitle">M. Chinnaswamy Stadium · Wait-Time AI · Gate Heat Map · Seat Sync</p>
+          </div>
+
+          <!-- Row: City + API badge + Weather Widget + Locate button -->
+          <div class="header-controls">
+            <div class="city-selector-wrap">
+              <i class="ph ph-trophy city-pin-icon"></i>
+              <select id="city-selector" class="city-select">
+                <option value="Pre-Match">🕐 Pre-Match</option>
+                <option value="First Half">🏏 First Half</option>
+                <option value="Halftime" selected>⏸ Halftime</option>
+                <option value="Full Time">🏆 Full Time</option>
+              </select>
+            </div>
+            <div class="api-badge" id="data-source-badge">
+              <span class="live-pulse-dot"></span>
+              <span id="data-source-label">Fetching...</span>
+            </div>
+            <!-- Live Weather Widget -->
+            <div class="weather-widget" id="weather-widget">
+              <span class="weather-spinner" id="weather-spinner"></span>
+              <span id="weather-icon">⛅</span>
+              <span id="weather-text">Fetching weather...</span>
+            </div>
+            <!-- Geolocation Button -->
+            <button class="detect-location-btn" id="detect-location-btn">
+              <i class="ph ph-map-pin-line"></i>
+              <span id="detect-btn-text">Detect My Location</span>
+            </button>
+            <!-- Seat Sync Button -->
+            <button class="seat-sync-btn" id="seat-sync-btn" aria-label="Open Seat Sync">
+              <i class="ph-fill ph-map-pin-simple-area"></i>
+              <span>Seat Sync</span>
+              <span class="seat-sync-live-badge">LIVE</span>
+            </button>
+          </div>
+
+          <!-- Zone Interest Chips -->
+          <div class="preferences" id="user-preferences">
+            <span class="pref-label">My Zone:</span>
+            <button class="pref-chip" data-val="North Stand"><i class="ph ph-users-three"></i> North Stand</button>
+            <button class="pref-chip" data-val="Food Court B"><i class="ph ph-fork-knife"></i> Food Court B</button>
+            <button class="pref-chip" data-val="East Gate Entry"><i class="ph ph-door-open"></i> East Gate</button>
+            <button class="pref-chip" data-val="Grandstand Lounge"><i class="ph ph-armchair"></i> Grandstand</button>
+          </div>
+        </header>
+
+        <!-- AI Command Bar -->
+        <div class="assistant-container">
+          <div class="input-wrapper">
+            <i class="ph ph-sparkle spark-icon"></i>
+            <input type="text" id="assistant-input" placeholder='Ask: "Fastest entry gate" or "Halftime food options" or "Where is it quiet?"' autocomplete="off" />
+            <button id="ask-btn" aria-label="Send query"><i class="ph ph-paper-plane-right"></i></button>
+          </div>
+          <div class="example-commands">
+            <span class="cmd-chip">"Fastest entry gate"</span>
+            <span class="cmd-chip">"Halftime food options"</span>
+            <span class="cmd-chip">"Avoid crowded areas"</span>
+            <span class="cmd-chip">"Where is it quiet?"</span>
+          </div>
+        </div>
+
+        <!-- AI Response Area -->
+        <section id="dynamic-content-area" class="dynamic-area glass-panel hidden">
+          <div class="dynamic-header">
+            <h3 id="dynamic-title">AI Response</h3>
+            <button id="close-dynamic" class="icon-btn"><i class="ph ph-x"></i></button>
+          </div>
+          <div id="dynamic-body" class="dynamic-body"></div>
+        </section>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+
+          <!-- Up Next Card -->
+          <section class="card glass-panel schedule-card">
+            <div class="card-header">
+              <h2><i class="ph ph-calendar-star"></i> Up Next</h2>
+              <button class="text-link" id="view-all-btn">View All</button>
+            </div>
+            <div class="schedule-list" id="schedule-list-container">
+              <div class="loading-skeleton"><span></span><span></span><span></span></div>
+            </div>
+          </section>
+
+          <!-- Crowd Status Card -->
+          <section class="card glass-panel crowd-card">
+            <div class="card-header">
+              <h2><i class="ph ph-users-three"></i> Crowd AI</h2>
+              <div class="live-indicator">
+                <span class="live-pulse-dot gold"></span> Live
+              </div>
+            </div>
+            <div class="crowd-legend">
+              <span><span class="legend-dot" style="background:var(--density-low)"></span>Low</span>
+              <span><span class="legend-dot" style="background:var(--density-med)"></span>Medium</span>
+              <span><span class="legend-dot" style="background:var(--density-high)"></span>High</span>
+            </div>
+            <div class="crowd-metrics" id="crowd-metrics-container">
+              <!-- Populated by JS -->
+            </div>
+          </section>
+
+          <!-- Recommendations Card -->
+          <section class="card glass-panel rec-card">
+            <div class="card-header">
+              <h2><i class="ph ph-compass"></i> AI Picks For You</h2>
+              <span class="ai-badge"><i class="ph ph-robot"></i> Contextual AI</span>
+            </div>
+            <div class="rec-grid" id="rec-grid-container">
+              <!-- Populated by JS -->
+            </div>
+          </section>
+
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- VIEW: SCHEDULE                               -->
+      <!-- ============================================ -->
+      <section id="view-schedule" class="page-view">
+        <div class="page-header">
+          <h1><i class="ph ph-calendar-star"></i> Full Zone Schedule</h1>
+          <p class="subtitle">All stadium zones · sorted by AI-ranked relevance · <span id="schedule-city-label">Halftime</span></p>
+        </div>
+
+        <!-- Schedule Filters -->
+        <div class="schedule-filters glass-panel">
+          <button class="filter-chip active" data-filter="all">All Zones</button>
+          <button class="filter-chip" data-filter="North Stand">North Stand</button>
+          <button class="filter-chip" data-filter="Grandstand Lounge">Grandstand</button>
+          <button class="filter-chip" data-filter="East Gate Entry">East Gate</button>
+          <button class="filter-chip" data-filter="Food Court B">Food Court B</button>
+        </div>
+
+        <div class="glass-panel" style="margin-top:1.5rem;">
+          <div class="schedule-list" id="schedule-full-list">
+            <div class="loading-skeleton"><span></span><span></span><span></span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- VIEW: CROWD STATUS                           -->
+      <!-- ============================================ -->
+      <section id="view-crowd" class="page-view">
+        <div class="page-header">
+          <h1><i class="ph ph-users-three"></i> Live Stadium Analytics</h1>
+          <p class="subtitle">Wait-Time AI · Gate Heat Map · Real-time capacity modelling · M. Chinnaswamy Stadium</p>
+        </div>
+
+        <div class="crowd-ai-banner glass-panel">
+          <div class="crowd-ai-explain">
+            <i class="ph ph-brain"></i>
+            <div>
+              <strong>ChronoCrowd Wait-Time AI</strong>
+              <p>Wait times are calculated using zone density scores, match-phase timing (±1.5h boost), stadium capacity models, and live Open-Meteo weather. <strong>Fastest Path AI</strong> automatically fires when East Gate exceeds 70% capacity — redirecting fans to North Gate (4 min entry).</p>
+            </div>
+          </div>
+          <div class="crowd-legend" style="margin-top:1rem;">
+            <span><span class="legend-dot" style="background:var(--density-low)"></span>Low (under 40%)</span>
+            <span><span class="legend-dot" style="background:var(--density-med)"></span>Medium (40–79%)</span>
+            <span><span class="legend-dot" style="background:var(--density-high)"></span>High (80%+)</span>
+          </div>
+        </div>
+
+        <div class="glass-panel" style="margin-top:1.5rem;">
+          <div class="crowd-zone-grid" id="crowd-zones-full">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- VIEW: EVENT MAP                              -->
+      <!-- ============================================ -->
+      <section id="view-map" class="page-view">
+        <div class="page-header">
+          <h1><i class="ph ph-map-trifold"></i> Live Event Map</h1>
+          <p class="subtitle">Interactive zones · weather-aware · click any zone for live intel</p>
+        </div>
+
+        <!-- Weather impact banner (shown when rain/heat active) -->
+        <div id="weather-impact-banner" class="weather-impact-banner hidden"></div>
+
+        <!-- Interactive Zone Map -->
+        <div class="interactive-map-grid">
+
+          <div class="map-zone-card large-zone" id="zone-card-north-stand" data-zone="north-stand">
+            <div class="zone-pulse-ring" id="pulse-north-stand"></div>
+            <div class="zone-card-inner">
+              <i class="ph ph-users-three zone-icon"></i>
+              <h3>North Stand</h3>
+              <p class="zone-subtitle">Outdoor · 15,000 Capacity</p>
+              <div class="zone-crowd-badge" id="badge-north-stand"><span class="live-pulse-dot"></span> Loading…</div>
+              <p class="zone-event-name" id="event-north-stand">–</p>
+              <p class="zone-weather-note" id="weather-north-stand"></p>
+            </div>
+          </div>
+
+          <div class="map-zone-card" id="zone-card-grandstand-lounge" data-zone="grandstand-lounge">
+            <div class="zone-pulse-ring" id="pulse-grandstand-lounge"></div>
+            <div class="zone-card-inner">
+              <i class="ph ph-armchair zone-icon"></i>
+              <h3>Grandstand Lounge</h3>
+              <p class="zone-subtitle">Indoor · VIP · Climate Controlled</p>
+              <div class="zone-crowd-badge" id="badge-grandstand-lounge"><span class="live-pulse-dot"></span> Loading…</div>
+              <p class="zone-event-name" id="event-grandstand-lounge">–</p>
+              <p class="zone-weather-note" id="weather-grandstand-lounge"></p>
+            </div>
+          </div>
+
+          <div class="map-zone-card" id="zone-card-food-court-b" data-zone="food-court-b">
+            <div class="zone-pulse-ring" id="pulse-food-court-b"></div>
+            <div class="zone-card-inner">
+              <i class="ph ph-fork-knife zone-icon"></i>
+              <h3>Food Court B</h3>
+              <p class="zone-subtitle">Indoor · 12 Counters · 800 Capacity</p>
+              <div class="zone-crowd-badge" id="badge-food-court-b"><span class="live-pulse-dot"></span> Loading…</div>
+              <p class="zone-event-name" id="event-food-court-b">–</p>
+              <p class="zone-weather-note" id="weather-food-court-b"></p>
+            </div>
+          </div>
+
+          <div class="map-zone-card" id="zone-card-east-gate-entry" data-zone="east-gate-entry">
+            <div class="zone-pulse-ring" id="pulse-east-gate-entry"></div>
+            <div class="zone-card-inner">
+              <i class="ph ph-door-open zone-icon"></i>
+              <h3>East Gate Entry</h3>
+              <p class="zone-subtitle">Outdoor · Main Entry · All Tickets</p>
+              <div class="zone-crowd-badge" id="badge-east-gate-entry"><span class="live-pulse-dot"></span> Loading…</div>
+              <p class="zone-event-name" id="event-east-gate-entry">–</p>
+              <p class="zone-weather-note" id="weather-east-gate-entry"></p>
+            </div>
+          </div>
+
+        </div>
+        <p class="map-footer-note">Wait times update every 15 sec · Fastest Path AI active · Open-Meteo weather intelligence · <span class="live-pulse-dot"></span> Live</p>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- VIEW: PROFILE                                -->
+      <!-- ============================================ -->
+      <section id="view-profile" class="page-view">
+        <div class="page-header">
+          <h1><i class="ph ph-user-circle"></i> My Profile</h1>
+          <p class="subtitle">Manage your session, stadium zone preferences, and match settings.</p>
+        </div>
+        <div class="glass-panel profile-panel">
+          <div class="profile-avatar-row">
+            <div class="profile-avatar" id="profile-avatar-icon"><i class="ph ph-user"></i></div>
+            <div>
+              <h2 id="profile-name-display">Guest User</h2>
+              <p id="profile-email-display" style="color:var(--text-secondary);">Not logged in</p>
+              <span id="profile-role-badge" class="role-badge" style="display:none;"></span>
+            </div>
+          </div>
+
+          <hr style="border:none;border-top:1px solid rgba(0,0,0,0.06);margin:1.5rem 0;">
+
+          <div class="profile-section">
+            <h3>Selected Interests</h3>
+            <div id="profile-interests-display" class="profile-interests">
+              <span style="color:var(--text-muted);">No interests selected yet.</span>
+            </div>
+          </div>
+
+          <div class="profile-section" style="margin-top:1.5rem;">
+            <h3>Match Phase &amp; Weather</h3>
+            <p id="profile-city-display" style="color:var(--text-secondary);">Halftime</p>
+            <p id="profile-weather-display" style="color:var(--text-muted);font-size:0.85rem;margin-top:4px;">–</p>
+          </div>
+
+          <hr style="border:none;border-top:1px solid rgba(0,0,0,0.06);margin:1.5rem 0;">
+
+          <div class="profile-section" id="profile-login-prompt">
+            <p style="color:var(--text-secondary);margin-bottom:1rem;">Login or register to sync preferences and unlock full features.</p>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+              <button class="primary-btn" id="profile-login-btn" style="flex:1;min-width:120px;">Login</button>
+              <button class="primary-btn" style="flex:1;min-width:120px;background:transparent;color:var(--accent-secondary);border:2px solid var(--accent-secondary);" id="profile-register-btn">Register</button>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:12px;margin-top:1rem;flex-wrap:wrap;">
+            <button id="btn-back-dashboard" class="primary-btn" style="flex:1;min-width:140px;background:transparent;color:var(--text-primary);border:1.5px solid rgba(0,0,0,0.12);">
+              <i class="ph ph-arrow-left"></i> Back to Dashboard
+            </button>
+            <button id="btn-logout" class="primary-btn" style="display:none;flex:1;min-width:140px;background:#C65D5D;color:#fff;">
+              <i class="ph ph-sign-out"></i> Logout
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- VIEW: ADMIN PANEL                            -->
+      <!-- ============================================ -->
+      <section id="view-admin" class="page-view">
+        <div class="page-header">
+          <div>
+            <h1><i class="ph ph-shield-check"></i> Admin Panel</h1>
+            <p class="subtitle">Manage events, categories, and override live crowd data.</p>
+          </div>
+          <span id="admin-role-badge" class="role-badge">ADMIN</span>
+        </div>
+        <div id="admin-panel-body"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
