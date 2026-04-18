@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="ChronoCrowd — Stadium AI Command Center for Cricket World Finals at M. Chinnaswamy Stadium. Live wait-time predictions, gate heat maps, Seat Sync, and Predictive Crowd AI." />
-  <!-- Content Security Policy — restricts sources to Google services + trusted CDNs -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://www.gstatic.com https://maps.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.open-meteo.com https://app.ticketmaster.com; frame-src https://www.google.com; img-src 'self' data: https:;" />
+  <!-- Content Security Policy — upgrade-insecure-requests + restricts sources to Google services + trusted CDNs -->
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://www.gstatic.com https://maps.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.open-meteo.com https://app.ticketmaster.com; frame-src https://www.google.com; img-src 'self' data: https:;" />
   <title>ChronoCrowd — Cricket World Finals Command Center</title>
 
   <!-- Google Fonts: Inter (body/UI) + Syne (headings/brand) -->
@@ -429,30 +429,31 @@
         </div>
 
         <!-- Google Maps Embed: M. Chinnaswamy Stadium, Bengaluru (Stadium Logistics reference point) -->
-       <div class="glass-panel" style="margin-top:1.5rem;padding:0;overflow:hidden;border-radius:var(--radius-lg);">
-  <div style="padding:1rem 1.5rem 0.75rem;border-bottom:1px solid var(--border-glass);display:flex;align-items:center;gap:8px;">
-    <i class="ph ph-map-trifold" style="color:var(--accent-secondary);"></i>
-    <strong style="font-size:0.9rem;">M. Chinnaswamy Stadium — Live Map</strong>
-    <span style="font-size:0.75rem;color:var(--text-muted);margin-left:auto;">Google Maps · Stadium Logistics HQ</span>
+       <div class="glass-panel" style="margin-top:1.5rem;padding:0;overflow:hidden;border-radius:var(--radius-lg);" aria-labelledby="map-heading-crowd">
+  <div class="panel-header" style="padding:1rem 1.5rem 0.75rem;border-bottom:1px solid var(--border-glass);display:flex;align-items:center;gap:8px;">
+    <i class="ph ph-map-trifold" style="color:var(--accent-secondary);" aria-hidden="true"></i>
+    <strong id="map-heading-crowd" style="font-size:0.9rem;">M. Chinnaswamy Stadium — Live Map</strong>
+    <span class="badge-google">Google Maps Integrated</span>
   </div>
 
   <iframe
     id="stadium-map-embed"
-    title="M. Chinnaswamy Stadium, Bengaluru"
+    title="M. Chinnaswamy Stadium location"
     width="100%"
     height="320"
     style="border:0;display:block;"
     loading="lazy"
     allowfullscreen=""
     referrerpolicy="no-referrer-when-downgrade"
-    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.9152431666!2d77.59600571120224!3d12.97723221471378!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae16719b05c56d%3A0x63346d971513264c!2sM.%20Chinnaswamy%20Stadium!5e0!3m2!1sen!2sin!4v1713220000000!5m2!1sen!2sin">
+    aria-label="Interactive map of M. Chinnaswamy Stadium"
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.820352516629!2d77.59620787593122!3d12.978252214619736!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae16623631f479%3A0x6b68a529322e70e5!2sM.%20Chinnaswamy%20Stadium!5e0!3m2!1sen!2sin!4v1713214567890!5m2!1sen!2sin">
   </iframe>
 </div>
 
 <div class="glass-panel" style="margin-top:1.5rem;">
-  <div class="crowd-zone-grid" id="crowd-zones-full">
+  <div class="crowd-zone-grid" id="crowd-zones-full" aria-live="polite" aria-label="Live crowd telemetry for all stadium zones">
     </div>
-</div> 
+</div>
             
 
         <div class="glass-panel" style="margin-top:1.5rem;">

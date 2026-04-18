@@ -41,6 +41,11 @@
   --radius-lg: 20px;
   --radius-md: 12px;
   --radius-sm:  8px;
+
+  /* ── Snippet alias vars (backward-compat with snippet CSP/snippet references) ── */
+  --bg-dark:   var(--bg-deep);
+  --glass:     var(--bg-surface);
+  --accent:    var(--accent-cyan);
 }
 
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -430,6 +435,30 @@ body {
 }
 .glass-panel:hover { transform: translateY(-3px); box-shadow: 0 12px 40px -8px rgba(0,0,0,0.35), 0 0 0 1px rgba(0,242,255,0.05); }
 
+/* Panel header row (used in map section and zone cards) */
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-glass);
+}
+.panel-header i { color: var(--accent-secondary); font-size: 1.05rem; }
+
+/* Google Maps integration badge */
+.badge-google {
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: rgba(0, 242, 255, 0.08);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(0, 242, 255, 0.2);
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-left: auto;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
 /* ============================================================ */
 /* TECHNICAL OVERVIEW GRID (responsive CSS Grid, 1.5rem gap)    */
 /* ============================================================ */
@@ -799,6 +828,16 @@ select.form-input { cursor: pointer; }
   outline: 3px solid var(--accent-cyan);
   outline-offset: 3px;
   box-shadow: 0 0 0 6px rgba(0,242,255,0.25);
+}
+
+/* ACCESSIBILITY (WCAG 2.1 AA): Visible focus ring for ALL keyboard-navigable elements */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 4px;
 }
 
 /* ============================================================ */
