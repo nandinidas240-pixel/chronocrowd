@@ -459,6 +459,27 @@ body {
   white-space: nowrap;
 }
 
+/* Generic hidden utility (used by Firebase UID badge) */
+.hidden { display: none !important; }
+
+/* Firebase status badge: default state (amber/orange) */
+#firebase-status-badge {
+  transition: background 0.4s, border-color 0.4s, color 0.4s;
+}
+/* When Firestore connection succeeds, badge turns green */
+#firebase-status-badge.connected {
+  background:    rgba(52, 168, 83, 0.15) !important;
+  border-color:  rgba(52, 168, 83, 0.5)  !important;
+  color:         #34A853                 !important;
+  box-shadow:    0 0 10px rgba(52, 168, 83, 0.2);
+}
+
+/* Firebase UID badge (shown once anonymous auth resolves) */
+#firebase-uid-badge {
+  animation: fadeIn 0.4s ease;
+}
+
+
 /* ============================================================ */
 /* TECHNICAL OVERVIEW GRID (responsive CSS Grid, 1.5rem gap)    */
 /* ============================================================ */
