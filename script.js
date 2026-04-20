@@ -1661,7 +1661,10 @@ document.addEventListener('DOMContentLoaded', () => {
     currentUser = user; saveSession(user); updateAuthUI(); renderProfile();
     switchView('view-dashboard');
     showToast(`✅ Welcome, <strong>${user.name}</strong>! ${user.role==='admin'?'Admin panel unlocked.':'Personalized recommendations active.'}`, 'info');
+   const authModal = document.getElementById('auth-modal');
+    authModal?.classList.add('hidden'); 
   };
+  
 
   /* ══════════════════════════════════════════════════════════
      24. GOOGLE PICKER
