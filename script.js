@@ -70,80 +70,64 @@ window.__chronoUid = null;
  * All network calls gracefully degrade to deterministic local data on failure.
  * @returns {Promise<void>} Resolves after Firestore seed completes.
  */
+/**
+ * @function initializeFirebase
+ * @description Initializes Firebase v10, sets up real-time Auth observer, and Firestore.
+ */
 async function initializeFirebase() {
   try {
-    // ── Step 1: Load Firebase modular SDK from Google CDN ──
-    const { initializeApp }    = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
-    const { getFirestore, doc, setDoc, getDocs, collection } =
-      await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
-    const { getAuth, signInAnonymously } =
-      await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js');
+    const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
+    const { getFirestore, doc, setDoc, getDocs, collection, onSnapshot } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+    const { getAuth, onAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js');
 
-    // ── Step 2: Initialize Firebase App ──
     const firebaseApp = initializeApp(FIREBASE_CONFIG);
-    console.log('Firebase Initialized');
-
-    // ── Step 3: Get Firestore + Auth instances ──
     const db   = getFirestore(firebaseApp);
     const auth = getAuth(firebaseApp);
+    
     window.__chronoFirestore = db;
     window.__chronoAuth      = auth;
 
-    // ── Step 4: Anonymous Auth ──
-    try {
-      const userCred = await signInAnonymously(auth);
-      window.__chronoUid = userCred.user.uid;
-      console.log('[ChronoCrowd|Auth] Signed in anonymously. UID:', window.__chronoUid);
-      // Update UI badge if present
-      const uidBadge = document.getElementById('firebase-uid-badge');
-      if (uidBadge) {
-        uidBadge.textContent = `Firebase UID: ${window.__chronoUid.slice(0, 8)}…`;
-        uidBadge.classList.remove('hidden');
+    // ── REAL AUTH STATE OBSERVER ──
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        window.__chronoUid = user.uid;
+        
+        const uidBadge = document.getElementById('firebase-uid-badge');
+        if (uidBadge) {
+          uidBadge.textContent = `UID: ${window.__chronoUid.slice(0, 8)}…`;
+          uidBadge.classList.remove('hidden');
+        }
+
+        if (window.__finishLoginUI) {
+          window.__finishLoginUI({
+            name: user.displayName || user.email.split('@')[0],
+            email: user.email,
+            uid: user.uid,
+            loginType: user.providerData[0]?.providerId === 'google.com' ? 'google' : 'email',
+            role: user.email === ADMIN_EMAIL ? 'admin' : 'user'
+          });
+        }
+      } else {
+        document.getElementById('firebase-uid-badge')?.classList.add('hidden');
       }
-    } catch (authErr) {
-      console.warn('[ChronoCrowd|Auth] Anonymous auth failed (demo mode):', authErr.message);
-    }
-
-    // ── Step 5: Seed Firestore crowd collection ──
-    const crowdCol = collection(db, 'crowd');
-    const seedPromises = FIRESTORE_SEED_DATA.map(({ zone, waitTime }) =>
-      setDoc(doc(db, 'crowd', zone.replace(/\s+/g, '_')), {
-        zone,
-        waitTime,
-        updatedAt: new Date().toISOString(),
-        source:    'ChronoCrowd-AI',
-      })
-    );
-    await Promise.all(seedPromises);
-    console.log('[ChronoCrowd|Firestore] Seeded', FIRESTORE_SEED_DATA.length, 'crowd documents.');
-
-    // ── Step 6: Read back seeded docs into in-memory cache ──
-    const snapshot = await getDocs(crowdCol);
-    /** @type {Map<string, number>} zone → waitTime (minutes) */
-    window.__chronoZoneWaitTimes = new Map();
-    snapshot.forEach(docSnap => {
-      const data = docSnap.data();
-      window.__chronoZoneWaitTimes.set(data.zone, data.waitTime);
     });
-    console.log('[ChronoCrowd|Firestore] Crowd data loaded from Firestore:',
-      Object.fromEntries(window.__chronoZoneWaitTimes));
 
-    // Update Firebase status badge in UI
-    const fbBadge = document.getElementById('firebase-status-badge');
-    if (fbBadge) {
-      fbBadge.textContent = '🔥 Powered by Google Firebase';
-      fbBadge.classList.add('connected');
-    }
+    onSnapshot(collection(db, 'crowd'), (snapshot) => {
+      window.__chronoZoneWaitTimes = new Map();
+      snapshot.forEach(docSnap => window.__chronoZoneWaitTimes.set(docSnap.data().zone, docSnap.data().waitTime));
+      const fbBadge = document.getElementById('firebase-status-badge');
+      if (fbBadge) {
+        fbBadge.textContent = '🔥 Powered by Google Firebase';
+        fbBadge.classList.add('connected');
+      }
+      if (typeof renderAll === 'function') renderAll();
+    });
 
   } catch (err) {
-    // Graceful fallback — app works in demo mode without Firestore.
-    console.warn('[ChronoCrowd|Firebase] SDK error (graceful fallback):', err.message);
-    // Seed the in-memory map with deterministic data so UI never breaks
-    window.__chronoZoneWaitTimes = new Map(
-      FIRESTORE_SEED_DATA.map(({ zone, waitTime }) => [zone, waitTime])
-    );
+    console.warn('[Firebase] Error:', err.message);
   }
 }
+ 
 
 /**
  * @function initGoogleMapsAPI
